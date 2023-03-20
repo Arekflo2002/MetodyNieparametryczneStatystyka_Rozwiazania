@@ -2,9 +2,9 @@ import scipy.stats as stats
 import matplotlib.pyplot as plt
 import numpy as np
 
-liczba_stopni = [1,20,100,1000,100000]
+liczba_stopni = [1,20,50,200,1000]
 alfa = 0.05
-n = [10, 30, 50, 100, 300, 500, 1000]
+n = [10,20,50,200,1000]
 liczba_symulacji = 1000
 moce_testow = []
 
