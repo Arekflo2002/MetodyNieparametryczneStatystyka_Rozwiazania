@@ -2,6 +2,11 @@ import scipy.stats as stats
 import matplotlib.pyplot as plt
 import numpy as np
 
+# Czym wieksza moc testu tym wiekszy odsetek odrzucenia H0 ---- > Tym mniej symulacji mialo rozklad normalny
+# Wyniki w tabelach pokazuja w jakim % wynikow odrzucam H0, czyli w jakiej odsetku symluacji rozklad 
+# byl "normalny"
+np.random.seed(seed=123)
+
 liczba_stopni = [1,20,50,200,1000]
 alfa = 0.05
 n = [10,20,50,200,1000]
@@ -24,10 +29,8 @@ for stopien in liczba_stopni:
                 odrzucenie_H0 += 1
         
         # Obliczamy ostateczny odsetek odrzucenia H0
-        # print(stopien," ",nka,"  ",odrzucenie_H0/nka)
         moc_n_testu.append((odrzucenie_H0/nka))
 
-    # print(moc_n_testu)
     moce_testow.append(moc_n_testu)
 
 print(moce_testow)
