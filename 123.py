@@ -7,13 +7,13 @@ alfa = 0.05
 n = [10,20,50,200,1000]
 liczba_symulacji = 1000
 moce_testow = []
-
+ 
 # Zebranie danych z rozkladu t - studenta
 
 for stopien in liczba_stopni:
+    moc_n_testu = []
     for nka in n:
         odrzucenie_H0 = 0
-        moc_n_testu = []
         for K in range(liczba_symulacji):
             probka = stats.t.rvs(stopien,size=nka)
             # Standaryzacja danych i guess
@@ -24,10 +24,10 @@ for stopien in liczba_stopni:
                 odrzucenie_H0 += 1
         
         # Obliczamy ostateczny odsetek odrzucenia H0
-        moc_n_testu.append(odrzucenie_H0/nka)
+        # print(stopien," ",nka,"  ",odrzucenie_H0/nka)
+        moc_n_testu.append((odrzucenie_H0/nka))
 
+    # print(moc_n_testu)
     moce_testow.append(moc_n_testu)
 
-
-for moce in moce_testow:
-    print(moce)
+print(moce_testow)
