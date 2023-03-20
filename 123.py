@@ -7,15 +7,16 @@ import numpy as np
 # byl "normalny"
 np.random.seed(seed=123)
 
-liczba_stopni = [1,20,50,200]
+liczba_stopni = [1,2,50,200]
 alfa = 0.05
-n = [10,20,50,100]
-liczba_symulacji = 1000
+n = range(10,100)
+liczba_symulacji = 100
 moce_testow = []
  
 # Zebranie danych z rozkladu t - studenta
 
 for stopien in liczba_stopni:
+    print(stopien)
     moc_n_testu = []
     for nka in n:
         odrzucenie_H0 = 0
@@ -38,8 +39,9 @@ for stopien in liczba_stopni:
 
 plt.figure()
 
-for stopien in liczba_stopni:
-    plt.plot(n,moce_testow,label=f"df = {stopien}")
+plt.plot(n,moce_testow[0])
+plt.plot(n,moce_testow[1])
+plt.plot(n,moce_testow[2])
+plt.plot(n,moce_testow[3])
 
-plt.legend()
 plt.show()
