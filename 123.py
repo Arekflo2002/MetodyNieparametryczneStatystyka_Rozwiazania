@@ -34,3 +34,8 @@ for stopien in liczba_stopni:
     moce_testow.append(moc_n_testu)
 
 print(moce_testow)
+
+# Etap Tworzenia wykresu 
+
+for moce in moce_testow:
+    plt.plot,)    
