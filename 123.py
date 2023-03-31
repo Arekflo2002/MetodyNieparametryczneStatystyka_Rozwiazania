@@ -7,7 +7,7 @@ import numpy as np
 # byl "normalny"
 np.random.seed(seed=123)
 
-liczba_stopni = range(1,50)
+liczba_stopni = range(1,50,1)
 alfa = 0.05
 n = [10,20,50,100,500]
 liczba_symulacji = 100
@@ -23,9 +23,9 @@ for stopien in liczba_stopni:
             probka = stats.t.rvs(stopien,size=nka)
             # Standaryzacja danych i guess
             stand_probka = (probka - np.mean(probka))/np.std(probka)
-            # Bede badal odse       tek odrzucenia H0 przy 1000 symulacji 
+            # Bede badal odsetek odrzucenia H0 przy 1000 symulacji 
             # Jezeli pvalue jest < 0.05 to sa podstawy do orzucenia H0 wiec =+ zmienna 
-            if stats.shapiro(stand_probka).pvalue < alfa : 
+            if stats.shapiro(stand_probka).pvalue < alfa: 
                 odrzucenie_H0 += 1
         
            # Obliczamy ostateczny odsetek odrzucenia H0
@@ -35,12 +35,12 @@ for stopien in liczba_stopni:
 
 
 # Etap Tworzenia wykresu 
-
+print(len(moce_testow))
 plt.figure()
-
-plt.plot(liczba_stopni,moce_testow[0])
-plt.plot(liczba_stopni,moce_testow[1])
-plt.plot(liczba_stopni,moce_testow[2])
-plt.plot(liczba_stopni,moce_testow[3])
+plt.plot(moce_testow[0])
+plt.plot(moce_testow[1])
+plt.plot(moce_testow[2])
+plt.plot(moce_testow[3])
+plt.plot(moce_testow[4])
 
 plt.show()

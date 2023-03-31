@@ -35,10 +35,8 @@ for n in liczba_danych:
 # Etap Tworzenia wykresu 
 
 plt.figure()
+print(len(moce_testow))
+plt.plot(moce_testow[0])
 
-plt.plot(stopnie_swobody,moce_testow[0])
-plt.plot(stopnie_swobody,moce_testow[1])
-plt.plot(stopnie_swobody,moce_testow[2])
-plt.plot(stopnie_swobody,moce_testow[3])
 
 plt.show()
