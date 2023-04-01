@@ -23,18 +23,18 @@ for i, n in enumerate(sample_sizes):
 
             # Test Shapiro-Wilka
             stat_sw, p_sw = shapiro(data)
-            if p_sw >= 0.05:
+            if p_sw <= 0.05:
                 sw_powers[i, j] += 1
 
             # Test Kołmogorowa
             stat_ks, p_ks = kstest(data, 'norm')
-            if p_ks >= 0.05:
+            if p_ks <= 0.05:
                 ks_powers[i, j] += 1
 
             # Test 𝜒2
             freq, _ = np.histogram(data, bins='auto')
             stat_chi, p_chi = chisquare(freq)
-            if p_chi >= 0.05:
+            if p_chi <= 0.05:
                 chi2_powers[i, j] += 1
 
 # Normalizacja wyników jako proporcje sukcesów

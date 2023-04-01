@@ -35,8 +35,9 @@ for n in liczba_danych:
 # Etap Tworzenia wykresu 
 
 plt.figure()
-print(len(moce_testow))
-plt.plot(moce_testow[0])
+
+for i,moc in enumerate(moce_testow):
+    plt.plot(stopnie_swobody,moc,label = "ggg")
 
 
 plt.show()
