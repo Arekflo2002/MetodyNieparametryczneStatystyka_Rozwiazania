@@ -4,14 +4,13 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
-np.random.seed(seed=321)
 
 # Zakres stopni swobody, jakie zaprezentuję na wykresie
-stopnie_swobody = range(1, 50, 1)  # Zakres od 1-50 co 1
+stopnie_swobody = range(10, 50, 1)  # Zakres od 1-50 co 1
 # Ustalam poziom istotności
 poziom_istotnosci = 0.05
 # Liczba danych dla jakich wykonam symulacje
-liczby_danych = [10, 20, 50, 100, 200]
+liczby_danych = [50, 100, 200]
 # Liczba symulacji na jakich będę bazować
 liczba_symulacji = 100
 
@@ -38,8 +37,8 @@ def symulacja_testu(test):
                 # o l_danych wielkości i stopien_s stopni swobody
                 probka = stats.t.rvs(stopien_s, size=l_danych)
                 # Standaryzacja danych
+                
                 stand_probka = (probka-np.mean(probka))/np.std(probka)
-
                 # Tutaj jest moment decyzyjny, gdzie decyduje jaki test
                 # jest teraz symulowany
 
@@ -53,8 +52,8 @@ def symulacja_testu(test):
 
                 # Test Chi-kwadrat
                 elif test == "chi":
-                    exp_data = stats.norm.rvs(np.mean(stand_probka),np.std(stand_probka),size=l_danych)
-                    if stats.chisquare(f_obs = stand_probka,f_exp=exp_data).pvalue < poziom_istotnosci:
+                    # freq, _ = np.histogram(stand_probka, bins='auto')
+                    if stats.chisquare(stand_probka).pvalue < poziom_istotnosci:
                         suma_odrzucenia_H0 += 1
 
                 # Test Kołgomorova
@@ -75,7 +74,10 @@ def symulacja_testu(test):
 sym = symulacja_testu("chi")
 
 wy = plt.figure()
-
+i = 0
 for moc in sym:
-    plt.plot(moc)
+    plt.plot(moc,label=str(liczby_danych[i]))
+    i += 1
+plt.legend()
 
+plt.show()
