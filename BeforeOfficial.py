@@ -2,7 +2,7 @@ import scipy.stats as stats
 import matplotlib.pyplot as plt
 import numpy as np
 
-# Czym wieksza moc testu tym wiekszy odsetek odrzucenia H0 ---- > Tym mniej symulacji mialo rozklad normalny
+# Czym wieksza moc testu tym wiekszy odsetek    odrzucenia H0 ---- > Tym mniej symulacji mialo rozklad normalny
 # Wyniki w tabelach pokazuja w jakim % wynikow odrzucam H0, czyli w jakiej odsetku symluacji rozklad 
 # byl "normalny"
 np.random.seed(seed=123)

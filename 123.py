@@ -10,7 +10,7 @@ stopnie_swobody = range(10, 50, 1)  # Zakres od 1-50 co 1
 # Ustalam poziom istotności
 poziom_istotnosci = 0.05
 # Liczba danych dla jakich wykonam symulacje
-liczby_danych = [50, 100, 200]
+liczby_danych = [10,50, 100]
 # Liczba symulacji na jakich będę bazować
 liczba_symulacji = 100
 
@@ -28,6 +28,7 @@ def symulacja_testu(test):
         moce_n_testu = []
         # Dla każdego stopnia swobody
         for stopien_s in stopnie_swobody:
+            print(stopien_s)
             # W tej zmiennej będę sumował liczbę razy, gdy dla danego zestawu
             # danych odrzuciłem hipotezę zerową
             suma_odrzucenia_H0 = 0
@@ -39,6 +40,7 @@ def symulacja_testu(test):
                 # Standaryzacja danych
                 
                 stand_probka = (probka-np.mean(probka))/np.std(probka)
+                s_proba = probka/sum(probka)
                 # Tutaj jest moment decyzyjny, gdzie decyduje jaki test
                 # jest teraz symulowany
 
@@ -52,8 +54,8 @@ def symulacja_testu(test):
 
                 # Test Chi-kwadrat
                 elif test == "chi":
-                    # freq, _ = np.histogram(stand_probka, bins='auto')
-                    if stats.chisquare(stand_probka).pvalue < poziom_istotnosci:
+                    freq, _ = np.histogram(stand_probka, bins='auto')
+                    if stats.chisquare(freq).pvalue < poziom_istotnosci:
                         suma_odrzucenia_H0 += 1
 
                 # Test Kołgomorova
