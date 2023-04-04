@@ -6,14 +6,52 @@ import numpy as np
 
 
 # Zakres stopni swobody, jakie zaprezentuję na wykresie
-stopnie_swobody = range(10, 50, 1)  # Zakres od 1-50 co 1
+stopnie_swobody = range(10, 30, 1)  # Zakres od 1-50 co 1
 # Ustalam poziom istotności
 poziom_istotnosci = 0.05
 # Liczba danych dla jakich wykonam symulacje
-liczby_danych = [10,50, 100]
+liczby_danych = [10,20,50,100,200]
 # Liczba symulacji na jakich będę bazować
-liczba_symulacji = 100
+liczba_symulacji = 500
 
+
+def symulacja(l_danych,stopien_s,test):
+
+    # W tej zmiennej będę sumował liczbę razy, gdy dla danego zestawu
+    # danych odrzuciłem hipotezę zerową
+    suma_odrzucenia_H0 = 0
+
+    for k in range(liczba_symulacji):
+        # Tworzę próbkę danych z rozkładu t-Studenta
+        # o l_danych wielkości i stopien_s stopni swobody
+        probka = stats.t.rvs(stopien_s, size=l_danych)
+        # Standaryzacja danych
+        
+        stand_probka = (probka-np.mean(probka))/np.std(probka)
+        s_proba = probka/sum(probka)
+        # Tutaj jest moment decyzyjny, gdzie decyduje jaki test
+        # jest teraz symulowany
+
+        # Test Shapiro-Wilka
+        if test == "shapiro":
+            # Jeżeli pvalue z danego testu jest mniejsze niż wczesniej
+            # ustalony poziom istotnotnosci to odrucamy Hipoteze zerowa
+            # co znaczy ze zwiekszamy zmienna sumujaca odrzucenie H0 o 1
+            if stats.shapiro(stand_probka).pvalue < poziom_istotnosci:
+                suma_odrzucenia_H0 += 1
+
+        # Test Chi-kwadrat
+        elif test == "chi":
+            freq, _ = np.histogram(stand_probka, bins='auto')
+            if stats.chisquare(freq).pvalue < poziom_istotnosci:
+                suma_odrzucenia_H0 += 1
+
+        # Test Kołgomorova
+        elif test == "kolmog":
+            if stats.kstest(stand_probka, 'norm').pvalue < poziom_istotnosci:
+                suma_odrzucenia_H0 += 1
+
+    return suma_odrzucenia_H0/liczba_symulacji
 
 def symulacja_testu(test):
     # Tablica, która zbierze mi moce testów
@@ -28,43 +66,10 @@ def symulacja_testu(test):
         moce_n_testu = []
         # Dla każdego stopnia swobody
         for stopien_s in stopnie_swobody:
-            print(stopien_s)
-            # W tej zmiennej będę sumował liczbę razy, gdy dla danego zestawu
-            # danych odrzuciłem hipotezę zerową
-            suma_odrzucenia_H0 = 0
             # Symulacja, dla danego zestawu danych
-            for k in range(liczba_symulacji):
-                # Tworzę próbkę danych z rozkładu t-Studenta
-                # o l_danych wielkości i stopien_s stopni swobody
-                probka = stats.t.rvs(stopien_s, size=l_danych)
-                # Standaryzacja danych
-                
-                stand_probka = (probka-np.mean(probka))/np.std(probka)
-                s_proba = probka/sum(probka)
-                # Tutaj jest moment decyzyjny, gdzie decyduje jaki test
-                # jest teraz symulowany
-
-                # Test Shapiro-Wilka
-                if test == "shapiro":
-                    # Jeżeli pvalue z danego testu jest mniejsze niż wczesniej
-                    # ustalony poziom istotnotnosci to odrucamy Hipoteze zerowa
-                    # co znaczy ze zwiekszamy zmienna sumujaca odrzucenie H0 o 1
-                    if stats.shapiro(stand_probka).pvalue < poziom_istotnosci:
-                        suma_odrzucenia_H0 += 1
-
-                # Test Chi-kwadrat
-                elif test == "chi":
-                    freq, _ = np.histogram(stand_probka, bins='auto')
-                    if stats.chisquare(freq).pvalue < poziom_istotnosci:
-                        suma_odrzucenia_H0 += 1
-
-                # Test Kołgomorova
-                elif test == "kolmog":
-                    if stats.kstest(stand_probka, 'norm').pvalue < poziom_istotnosci:
-                        suma_odrzucenia_H0 += 1
 
             # Teraz podliczamy odsetek w jakim odrzucilismy H0 w całej symulacji
-            moce_n_testu.append((suma_odrzucenia_H0/liczba_symulacji))
+            moce_n_testu.append(symulacja(l_danych,stopien_s,test))
         # Teraz dodajemy moce n-tego testu do głownej tablicy przechowującej moce testu
         moce_testow.append(moce_n_testu)
 
@@ -73,7 +78,7 @@ def symulacja_testu(test):
     return moce_testow
 
 
-sym = symulacja_testu("chi")
+sym = symulacja_testu("shapiro")
 
 wy = plt.figure()
 i = 0
