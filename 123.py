@@ -4,15 +4,14 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
-
 # Zakres stopni swobody, jakie zaprezentuję na wykresie
-stopnie_swobody = range(10, 30, 1)  # Zakres od 1-50 co 1
+stopnie_swobody = range(10, 50, 1)  # Zakres od 1-50 co 1
 # Ustalam poziom istotności
 poziom_istotnosci = 0.05
 # Liczba danych dla jakich wykonam symulacje
 liczby_danych = [10,20,50,100,200]
 # Liczba symulacji na jakich będę bazować
-liczba_symulacji = 500
+liczba_symulacji = 100
 
 
 def symulacja(l_danych,stopien_s,test):
