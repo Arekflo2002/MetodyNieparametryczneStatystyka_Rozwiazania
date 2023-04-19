@@ -1,11 +1,6 @@
 import numpy as np
-from scipy.stats import chisquare
+import scipy.stats as stats
 
-# observed data
-observed_data = np.array([10, 20, 30, 25, 15])
+probka = stats.chi2.rvs(5,size = 1000)
 
-# expected data assuming a uniform distribution
-n = len(observed_data)
-expected_data = np.array([n/5] * 5)
-
-print(expected_data)
+podzial,bins = np.histogram(probka,bins)
