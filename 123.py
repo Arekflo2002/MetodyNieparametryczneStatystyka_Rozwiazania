@@ -2,11 +2,11 @@ import scipy.stats as stats
 import matplotlib.pyplot as plt
 import numpy as np
 
-probka = stats.t.rvs(5,size = 100)
+probka = stats.t.rvs(500,size = 200)
 
 freq,bins = np.histogram(probka,bins = 'auto')
 
-
+freq = freq/sum(freq)
 expect = []
 
 for i in range(len(bins)-1):
@@ -14,4 +14,9 @@ for i in range(len(bins)-1):
     expects = stats.norm.cdf(b) - stats.norm.cdf(a)
     expect.append(expects)
 
-print(sum(expect))
+expect[len(expect)-1] += 1- sum(expect)
+
+
+pval = stats.chisquare(freq,expect).pvalue 
+
+print(pval)
