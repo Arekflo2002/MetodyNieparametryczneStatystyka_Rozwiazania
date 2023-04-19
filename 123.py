@@ -2,7 +2,7 @@ import scipy.stats as stats
 import matplotlib.pyplot as plt
 import numpy as np
 
-probka = stats.t.rvs(500,size = 200)
+probka = stats.t.rvs(5,size = 50)
 
 freq,bins = np.histogram(probka,bins = 'auto')
 
