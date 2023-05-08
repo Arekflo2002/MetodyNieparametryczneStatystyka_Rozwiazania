@@ -10,33 +10,25 @@ x = np.linspace(0, 50, 1000)
 
 # obliczenie PDF dla rozkładu chi-kwadrat
 
-podzial,bi = np.histogram(probka,bins='auto')
+for i in range(50):
+    probka = stats.norm.rvs(size=200)
+    probka_t = stats.t.rvs(size=200,df=100)
 
-expected_values = []
-rv = stats.chi2
-for i in range(len(bi) - 1):
-    a, b = bi[i], bi[i+1]
-    expected_value = rv.cdf(b, dfs) - rv.cdf(a, dfs)
-    expected_value = round(expected_value,5)
-    expected_values.append(expected_value)
-
-expected_values[len(expected_values)-1] += 1-sum(expected_values) 
-
-podzial = podzial/np.sum(podzial)
+    dol = min(min(probka),min(probka_t))
+    gora = max(max(probka),max(probka_t))
 
 
-# print(expected_values,"\n")
-# print(podzial)
+    # Podzielenie danych na przedzialy 
 
-# print(bi)
-print(sum(expected_values))
-print(sum(podzial))
+    probka_podzial, rozdz = np.histogram(probka, bins=5,range=(dol,gora))
 
-spr = podzial - expected_values
+    probka_podzial_t,rozdz_t = np.histogram(probka_t, bins=rozdz,range=(dol,gora))
 
-print(spr)
-pva = stats.chisquare(podzial,f_exp=expected_values).pvalue
 
-print(pva)
 
+    print(probka_podzial)
+    pval = stats.chisquare(probka_podzial_t,probka_podzial).pvalue
+
+    if pval == 'nan' or pval == 0.0:
+        print(123)
 
