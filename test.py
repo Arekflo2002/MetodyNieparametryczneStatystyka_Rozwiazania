@@ -22,7 +22,8 @@ for i in range(4):
     probka_podzial_te = probka_podzial
     rozdz_te = rozdz
 
-    print(np.array_split(probka_podzial,2))
+    l1,l2 = np.array_split(probka_podzial,2)
+    l1 = l1[:l1.index]
 
     # probka_podzial_t,rozdz_t = np.histogram(probka_t, bins=rozdz)
     # roznica = sum(probka_podzial) - sum(probka_podzial_t)
