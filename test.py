@@ -1,43 +1,24 @@
 import numpy as np
-import scipy.stats as stats
-import matplotlib.pyplot as plt 
-import math
+from scipy.stats import chi2, kstest
+import matplotlib.pyplot as plt
 
-# wartości punktów, w których ma zostać obliczony PDF
-x = np.linspace(0, 50, 1000)
-np.random.seed(1234)
+n_simulations = 500  # ilość symulacji
+df_values = np.arange(1, 21)  # wartości stopni swobody do przetestowania
+alpha = 0.05  # poziom istotności testu
 
-# obliczenie PDF dla rozkładu chi-kwadrat
-odsetek = 0
-n=200
-for i in range(50):
-    probka = stats.norm.rvs(size=n)
-    probka_t = stats.t.rvs(size=n,df=200)
+results = np.zeros((n_simulations, len(df_values)))  # tablica wyników
 
+for i in range(n_simulations):
+    for j, df in enumerate(df_values):
+        sample = chi2.rvs(df=df, size=100)  # wygeneruj próbkę z rozkładu chi-kwadrat
+        ks_statistic, p_value = kstest(sample, chi2.cdf, args=(df,))  # wykonaj test Kołmogorowa
+        results[i, j] = p_value < alpha  # zapisz wynik testu (czy hipoteza zostala odrzucona?)
 
+power = 1 - np.mean(results, axis=0)  # oblicz odsetek nieodrzuconych hipotez
 
-    # Podzielenie danych na przedzialy 
-    
-    probka_podzial, rozdz = np.histogram(probka, bins='auto')
-
-    id = np.nonzero(probka_podzial==0)[0]
-    probka_podzial = probka_podzial[probka_podzial!=0]
-
-    rozdz = np.delete(rozdz,id)
-
-    probka_podzial_t,rozdz_t = np.histogram(probka_t, bins=rozdz)
-    roznica = sum(probka_podzial) - sum(probka_podzial_t)
-    
-
-    probka_podzial_t[0] += math.ceil(roznica/2)
-    probka_podzial_t[-1] += math.floor(roznica/2)
-
-    if sum(probka_podzial) != sum(probka_podzial_t):
-        print(probka_podzial_t)
-
-    pval = stats.chisquare(probka_podzial_t,probka_podzial).pvalue
-    print(pval)
-    if pval < 0.05:
-        odsetek +=1 
-    
-print(odsetek/50)
+# wykres
+plt.plot(df_values, power)
+plt.xlabel('Stopnie swobody')
+plt.ylabel('Odsetek nieodrzuconych hipotez')
+plt.title('Błąd I rodzaju w teście Kołmogorowa dla rozkładu chi-kwadrat')
+plt.show()
