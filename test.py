@@ -1,24 +1,34 @@
 import numpy as np
-from scipy.stats import chi2, kstest
+import scipy.stats as stats
 import matplotlib.pyplot as plt
 
-n_simulations = 500  # ilość symulacji
-df_values = np.arange(1, 21)  # wartości stopni swobody do przetestowania
-alpha = 0.05  # poziom istotności testu
+# ustalamy parametry symulacji
+n_simulations = 400
+degrees_of_freedom = [1, 2, 5, 10, 20, 50, 100]
 
-results = np.zeros((n_simulations, len(df_values)))  # tablica wyników
+# ustalamy poziom istotności dla testu chi-kwadrat
+alpha = 0.05
 
-for i in range(n_simulations):
-    for j, df in enumerate(df_values):
-        sample = chi2.rvs(df=df, size=100)  # wygeneruj próbkę z rozkładu chi-kwadrat
-        ks_statistic, p_value = kstest(sample, chi2.cdf, args=(df,))  # wykonaj test Kołmogorowa
-        results[i, j] = p_value < alpha  # zapisz wynik testu (czy hipoteza zostala odrzucona?)
+# tworzymy listy do przechowywania wyników symulacji
+rejections = []
+p_values = []
 
-power = 1 - np.mean(results, axis=0)  # oblicz odsetek nieodrzuconych hipotez
+# dla każdego stopnia swobody wykonujemy symulacje i zapisujemy wyniki
+for k in degrees_of_freedom:
+    rejection_count = 0
+    for i in range(n_simulations):
+        # generujemy próbki z rozkładu chi-kwadrat o k stopniach swobody
+        data = np.random.chisquare(k, size=100)
+        # wykonujemy test chi-kwadrat i zapisujemy wynik
+        _, p = stats.chisquare(data, f_exp=np.full_like(data, np.mean(data)))
+        p_values.append(p)
+        if p < alpha:
+            rejection_count += 1
+    rejections.append(rejection_count / n_simulations)
 
-# wykres
-plt.plot(df_values, power)
+# rysujemy wykres
+plt.plot(degrees_of_freedom, rejections)
 plt.xlabel('Stopnie swobody')
-plt.ylabel('Odsetek nieodrzuconych hipotez')
-plt.title('Błąd I rodzaju w teście Kołmogorowa dla rozkładu chi-kwadrat')
+plt.ylabel('Odsetek odrzuceń')
+plt.title('Test chi-kwadrat dla rozkładu chi-kwadrat')
 plt.show()
