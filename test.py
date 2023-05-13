@@ -63,7 +63,7 @@ for i in range(400):
     chi = stats.chi2.cdf(x=chi,df=dfs)
 
     fob,fex = wartosci_dla_chi2(chi,dfs) 
-
+ 
     if stats.chisquare(fob,fex).pvalue <0.05: odsetek+=1 
 
 print(odsetek/400)
