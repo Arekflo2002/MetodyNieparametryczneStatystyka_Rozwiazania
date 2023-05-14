@@ -15081,12 +15081,7 @@ class="
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h3 id="Wnioski">Wnioski<a class="anchor-link" href="#Wnioski">&#182;</a></h3><p>Wraz ze wzrostem liczby danych wzrasta także moc testu, aczkolwiek wraz ze wzrostem stopni liczby swobody w rozkładzie t-studenta moc testu spada i dąży do 0. Z wykresu widzimy, że moc testu maleje bardzo szybko i już dla 10 stopni swobody jest bliski 0. Wydaje się, że test jest miarodajny i w miarę wiarygodny tylko dla:</p>
-<ul>
-<li>dużej liczby stopni swobody(powyżej 100)</li>
-<li>małej liczby stopni swobody, ale dużej liczbie danych(powyżej 50)</li>
-</ul>
-<p>Wynika to z faktu, że Test Kołgomorowa, jest bardziej ogólny niż test Shapiro-Wilka.</p>
+<h3 id="Wnioski">Wnioski<a class="anchor-link" href="#Wnioski">&#182;</a></h3><p>Wraz ze wzrostem liczby danych wzrasta także moc testu, aczkolwiek wraz ze wzrostem stopni liczby swobody w rozkładzie t-studenta moc testu spada i dąży do 0. Z wykresu widzimy, że moc testu maleje bardzo szybko i już dla 10 stopni swobody jest bliski 0. Wydaje się, że test jest miarodajny i w miarę wiarygodny. Natomiast trzeba zwrócić uwagę na to, że test może być zbyt mało dokładny, ponieważ spada wyrazniej duzo szybciej niz test Shapiro-Wilka, co jest nieintuicyjne, test pownnien być monotoniczny dla liczby stopni swobody &gt; 30(bo dopiero wtedy mozna estymowac rozklad t-studenta rozkladem normalnym), a test już dla stopni swobody rownej 10 nie rozroznia rozkładow.Moze wynika to z faktu, że Test Kołgomorowa, jest bardziej ogólny niż test Shapiro-Wilka</p>
 
 </div>
 </div>
@@ -15169,7 +15164,7 @@ class="
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h4 id="Wnioski">Wnioski<a class="anchor-link" href="#Wnioski">&#182;</a></h4><p>Z wykresu możemy zobaczyć, że moc testu chi kwadrat zgodnie z oczekwaniami maleje wraz ze wzrostem stopni swobody oraz rośnie ze wzrostem liczby danych. Aczkolwiek warto zauważyć, że po pierwsze maleje ale nie tak jak pozostałe testy do wartości bliskiej poziomowi istotności(co jest czymś czego byśmy oczekiwali), tylko</p>
+<h4 id="Wnioski">Wnioski<a class="anchor-link" href="#Wnioski">&#182;</a></h4><p>Z wykresu możemy zobaczyć, że moc testu chi kwadrat zgodnie z oczekwaniami maleje wraz ze wzrostem stopni swobody oraz rośnie ze wzrostem liczby danych. Aczkolwiek warto zauważyć, że po pierwsze maleje ale nie tak jak pozostałe testy do wartości bliskiej poziomowi istotności(co jest czymś czego byśmy oczekiwali), tylko spada do pewnego punktu a następnie staje się monotoniczne. Mozna stwierdzic ze test chi kwadrat jest malo dokladny</p>
 
 </div>
 </div>
@@ -15262,7 +15257,7 @@ class="
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h3 id="Wnioski">Wnioski<a class="anchor-link" href="#Wnioski">&#182;</a></h3><p>Jak widzimy na wykresie test Shapiro-Wilka jest najbardziej monotonicznym testem w tym zestawie. Natomiast test Kołmogorowa idzie w jedną skrajność, jaką jest bardzo szybki spadek i dążenie do 0. Test Chi kwadrat popada w drugą skrajność jaka jest bardzo wolny spadek, a wręcz asymptotyczne dążenie do niewyjaśnialnej wartości odbiegającej od 0.</p>
+<h3 id="Wnioski">Wnioski<a class="anchor-link" href="#Wnioski">&#182;</a></h3><p>Jak widzimy na wykresie test Shapiro-Wilka jest najbardziej dokladnym testem w tym zestawie. Natomiast test Kołmogorowa idzie w jedną skrajność, jaką jest bardzo szybki spadek i dążenie do 0(co wkazuje na jego zbyt mala dokladnosc). Test Chi kwadrat popada w drugą skrajność jaka jest bardzo wolny spadek, a wręcz asymptotyczne dążenie do niewyjaśnialnej wartości odbiegającej od 0, co wskazuje jak niedokladny jest.</p>
 
 </div>
 </div>
