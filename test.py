@@ -1,69 +1,31 @@
 import numpy as np
-import scipy.stats as stats
-import matplotlib.pyplot as plt
-import math
-# ustalamy parametry symulacji
-np.random.seed(seed=123)
 
-# n = 200
+# Definiuj stopnie swobody dla dwóch próbek
+df1 = np.random.randint(1, 10)  # Losowe stopnie swobody dla próbki 1
+df2 = np.random.randint(1, 10)  # Losowe stopnie swobody dla próbki 2
+num_samples = 100
 
-# plt.hist(x, bins=10)
-# plt.show()
-# odsetek = 0
-# for i in range(400):
-#     x = stats.chi2.rvs(size=n,df=2)
-#     x = stats.chi2.cdf(x,df=2)
-#     y = stats.uniform.rvs(size=n)
-#     # plt.plot(y)
-#     # plt.show()
-#     if stats.kstest(x,'uniform').pvalue<0.05: odsetek +=1 
+# Generuj dwie próbki z rozkładu chi-kwadrat
+samples1 = np.random.chisquare(df1, num_samples)
+samples2 = np.random.chisquare(df2, num_samples)
 
+# Oblicz wartości oczekiwane dla obu próbek
+mean1 = np.mean(samples1)
+mean2 = np.mean(samples2)
 
-# print(odsetek/400)
+# Przesuń próbki, aby miały równą wartość oczekiwaną
+shifted_samples1 = samples1 - mean1 + mean2
+shifted_samples2 = samples2
 
-def wartosci_dla_chi2(probka,s_stopien):
-    """
-    Jest to funkcja która zwróci 2 zbiory: zbior zaobserwowanych wartosci(na podstawie probki przekazanej do 
-    funkcji) oraz zbior wartosci oczekiwanych potrzebnych do testu Chi kwadrat. Zaczne od wylosowania probki 
-    z rozkładu chi2 z parametrami takimy jakimi standaryzowałem oryginalna probke. Nastepnie podziele je 
-    na przedzialy zawierajce czestotliwosci wystepowania dane. Na koniec wyrównam róznice w sumie tych tablic,
-    aby uniknac pozniejszych bledow.    
-    """
-    # Losuje probke z rozkl chi2 o parametrach z proby
-    probka_chi2_or = stats.uniform.rvs(size = len(probka))
+# Sprawdź wartości oczekiwane przesuniętych próbek
+shifted_mean1 = np.mean(shifted_samples1)
+shifted_mean2 = np.mean(shifted_samples2)
 
-    # Dzielenie danych na przedzialy
-    probka_chi2_or, przedzialy = np.histogram(probka_chi2_or,bins='auto')
-    
-    # Teraz tam gdzie przedzial ma czestotliwosc 0(co prowadzi do wysypania sie testu chi kwadrat) łącze zewnetrzne
-    # przedzialy w jedno
-    indexes = np.nonzero(probka_chi2_or==0)[0]
-    probka_chi2_or = probka_chi2_or[probka_chi2_or != 0]
-    przedzialy = np.delete(przedzialy,indexes)
-
-    #Teraz dziele na przedzialy probke pochodzaca z chi2 oryginalnej
-    probka, _ = np.histogram(probka,bins=przedzialy)
-
-    # Teraz wyrownuje roznice w sumach tych tablic dajac obserwacje ktore sie nie zmiescily w tym zasiego do ostatnich 
-    # przedzialow 
-    roznica = sum(probka_chi2_or) - sum(probka)
-    probka[0] += math.ceil(roznica/2)
-    probka[-1] += math.floor(roznica/2)
-    
-    # Zwracam tablice gotowe do testu
-    return probka,probka_chi2_or
-
-
-
-n =200
-dfs = 10
-odsetek=0
-for i in range(400):
-    chi = stats.chi2.rvs(size=n,df=dfs)
-    chi = stats.chi2.cdf(x=chi,df=dfs)
-
-    fob,fex = wartosci_dla_chi2(chi,dfs) 
- 
-    if stats.chisquare(fob,fex).pvalue <0.05: odsetek+=1 
-
-print(odsetek/400)
+print("Stopnie swobody próbki 1:", df1)
+print("Stopnie swobody próbki 2:", df2)
+print("Wartość oczekiwana próbki 1:", mean1)
+print("Wartość oczekiwana próbki 2:", mean2)
+print("Przesunięta wartość oczekiwana próbki 1:", shifted_mean1)
+print("Przesunięta wartość oczekiwana próbki 2:", shifted_mean2)
+print("Przesunięte próbki 1:", shifted_samples1)
+print("Przesunięte próbki 2:", shifted_samples2)
