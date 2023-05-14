@@ -1,31 +1,22 @@
 import numpy as np
+import scipy.stats as stats
 
-# Definiuj stopnie swobody dla dwóch próbek
-df1 = np.random.randint(1, 10)  # Losowe stopnie swobody dla próbki 1
-df2 = np.random.randint(1, 10)  # Losowe stopnie swobody dla próbki 2
-num_samples = 100
+import numpy as np
 
-# Generuj dwie próbki z rozkładu chi-kwadrat
-samples1 = np.random.chisquare(df1, num_samples)
-samples2 = np.random.chisquare(df2, num_samples)
+liczba_elementow = 100  # Liczba elementów w próbkach
+stopnie_swobody = 2  # Liczba stopni swobody dla próbek
 
-# Oblicz wartości oczekiwane dla obu próbek
-mean1 = np.mean(samples1)
-mean2 = np.mean(samples2)
+# Generowanie pierwszej próbki z rozkładu 𝜒^2 o liczbie stopni swobody stopnie_swobody
+probka_1 = np.random.chisquare(stopnie_swobody, size=liczba_elementow)
+wartosc_oczekiwana = np.mean(probka_1)
 
-# Przesuń próbki, aby miały równą wartość oczekiwaną
-shifted_samples1 = samples1 - mean1 + mean2
-shifted_samples2 = samples2
+# Generowanie drugiej próbki z rozkładu 𝜒^2 o liczbie stopni swobody stopnie_swobody, o takiej samej wartości oczekiwanej
+np.random.seed(42)  # Ustawienie seed'a dla powtarzalności wyników
+probka_2 = np.random.chisquare(stopnie_swobody, size=liczba_elementow)
+probka_2 = + probka_2 + (wartosc_oczekiwana - np.mean(probka_2))
 
-# Sprawdź wartości oczekiwane przesuniętych próbek
-shifted_mean1 = np.mean(shifted_samples1)
-shifted_mean2 = np.mean(shifted_samples2)
+# Wyświetlanie wyników
 
-print("Stopnie swobody próbki 1:", df1)
-print("Stopnie swobody próbki 2:", df2)
-print("Wartość oczekiwana próbki 1:", mean1)
-print("Wartość oczekiwana próbki 2:", mean2)
-print("Przesunięta wartość oczekiwana próbki 1:", shifted_mean1)
-print("Przesunięta wartość oczekiwana próbki 2:", shifted_mean2)
-print("Przesunięte próbki 1:", shifted_samples1)
-print("Przesunięte próbki 2:", shifted_samples2)
+print("Wartość oczekiwana pierwszej próbki:", wartosc_oczekiwana)
+print("Wartość oczekiwana drugiej próbki:", np.mean(probka_2))
+
